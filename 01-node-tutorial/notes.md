@@ -3,7 +3,8 @@
 ## Global Variables
 
 - Window does not exist
-  - `__dirname` - gives current directory
+  - `__dirname` - gives current directory for the script being run
+    - `./` gives the directory you ran the node command
   - `__filename` - gives current file name
   - `require` - function to use modules
   - `module` -
@@ -21,3 +22,27 @@
     - **You will always start the require with a "./"** (dot slash)
 
 ## Built in Modules
+
+### OS Module
+
+- This helps us interact with the operating system and the server
+- `const os = require("os")`
+- `os.userInfo()` -Gives info about user
+- `os.upTime()` - Amount of time user's computer has been running
+- `os.type()` - Type of OS user is running
+- `os.release` - Get OS release version
+- `os.freemem()`
+- ``os.totalmem()`
+
+### PATH Module
+
+- `const path = require("path")`
+- `path.sep` - Tells what the users platform specific seperator is (Windows is the slash /)
+- `const filePath = path.join("/folderOne", "folderTwo", fileName.txt)`
+  - `console.log(filePath)` would give us "/folderOne/folderTwo/fileName.txt"
+- `path.base(filePath)` - extracts the file name from a path
+- `path.resolve(__dirname, "folderOne", "folderTwo")` - Takes a sequence of paths, gives us an absolute path
+
+### FS Module
+
+### HTTP Module
