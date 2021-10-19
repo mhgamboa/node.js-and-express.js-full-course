@@ -45,4 +45,40 @@
 
 ### FS Module
 
+- `const fs = require("fs");`
+
+#### synchronously (Blocking)
+
+- `fs.readFileSync("./path/first.txt", "utf8")` - Lets you read files
+- `fs.writeFileSync("./path/file.txt", "What to write")` - If file doesn't exist: creates a new file. If it does it overwrites the file completely
+  - If you want to append to the file add a third argument: `{flag: "a"}`
+
+#### asynchronously (Non-Blocking)
+
+- `fs.readFile("./path/first.txt", (err,"encoding", result)=>{})` - Lets you read files asynchronously. EXAMPLE:
+
+```
+readFile("./file/path.txt", "utf8", (err, result) => {
+if (err) {
+  console.log(err);
+  return; // returns null
+}
+console.log(result)
+})
+```
+
+- `fs.writeFile("./path/file.txt", "What to write", (err, result)=>{})` - If file doesn't exist: creates a new file. If it does it overwrites the file completely. All asynchrounously
+  - If you want to append to the file add a third argument: `{flag: "a"}`
+  - EXAMPLE:
+
+```
+writeFile("./file/path.txt", "what to write", (err, result) => {
+  if (err) {
+    console.log(err);
+    return;
+  }
+  console.log(result);
+})
+```
+
 ### HTTP Module
