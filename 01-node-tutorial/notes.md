@@ -82,3 +82,55 @@ writeFile("./file/path.txt", "what to write", (err, result) => {
 ```
 
 ### HTTP Module
+
+- `const http = require("http")`
+- `const server = http.creatServer((req, res) => {})` Creates a web server. All web servers do is listen for requests. EXAMPLE:
+
+```
+`const server = http.creatServer((req, res) => {
+  res.write("Hello World");
+  res.end;
+})`
+```
+
+- `server.listen(5000)`
+  - Navigating to `localhost:5000` will show us whatever response that we wrote
+- `req.url` is from the first foward slash(/) on after the ".com"
+
+## NPM
+
+- People say "package", "module", and "dependency", but they all mean the same thing
+- The higher the weekly downloads, the more reliable a package will be
+- Dependency version go: BreakingChanges.MinorChanges.Patches (EX: 3.4.1)
+
+### NPM Commands
+
+- `npm --v` - gets version
+- `npm i <packageName>` - install package locally
+- `npm install -g <packageName>` - Global install to use for any project
+  - Becuase of **npx** this is becoming less and less necessary
+  - npx essentially lets you run a CLI tool without the need for a global dependency
+- `npm i <packageName> --save-dev` OR `-D` - Saves as a dev dependency (not used in build)
+- With backend you'll always want to install **nodemon** into your project
+- Uninstall packages:
+  - `npm uninstall <packageName>`
+  - **Nuclear delete**: Delete `nod_modules` folderd and `package-lock.json`. Delete `<packageName>` from `dependencies`
+
+### package.json
+
+- **package.json** - A manifest file that stores important info about our project/package
+  - `npm init` (step by step q&a to create package.json)
+  - `npm init -y` sets up everything default
+
+-**Scripts**: Scripts are just an easy way to run node & npm commands. EXAMPLE:
+
+```
+"scripts": {
+    "start": "node app.js", // Runs with "npm start"
+    "dev": "nodemon app.js" // Runs with "npm run dev"
+  },
+```
+
+-**package-lock.json** tracks the versions of dependencies of our dependencies
+
+"Important Topics Info"

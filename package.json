@@ -1,0 +1,24 @@
+{
+  "name": "node.js-and-express.js-full-course",
+  "version": "1.0.0",
+  "description": "Thank you [John Smilga](https://www.youtube.com/c/CodingAddict) and [FreeCodeCamp](https://www.freecodecamp.org/) for posting this [awesome Youtube course](https://youtu.be/Oe421EPjeBE)!",
+  "main": "index.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mhgamboa/node.js-and-express.js-full-course.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mhgamboa/node.js-and-express.js-full-course/issues"
+  },
+  "homepage": "https://github.com/mhgamboa/node.js-and-express.js-full-course#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.14"
+  }
+}
