@@ -93,7 +93,7 @@ writeFile("./file/path.txt", "what to write", (err, result) => {
 })`
 ```
 
-- `server.listen(5000)`
+- `server.listen(5000, ()=>{})`
   - Navigating to `localhost:5000` will show us whatever response that we wrote
 - `req.url` is from the first foward slash(/) on after the ".com"
 
@@ -133,4 +133,34 @@ writeFile("./file/path.txt", "what to write", (err, result) => {
 
 -**package-lock.json** tracks the versions of dependencies of our dependencies
 
-"Important Topics Info"
+## Important Topics
+
+### **Event Loop**
+
+- Javascript is single threaded and synchronous. The event loop is pretty much how Javascript hands off code to other "things" to make it asynchronous
+- Javascript will then run the rest of the code in the file, and then take back the items from the event loop at the end
+
+### Working Asynchronous
+
+- Promise:
+  - `new Promise (resolve, reject)=>{ reject(foo) resolve(bar)}`
+- async/await:
+
+```
+const function = async () => {
+  try {
+    await fetch()
+  } catch(error) {
+    console.log(error)
+  }
+}
+```
+
+- `try{}` - Lets you test a block of code for errors
+- `catch{}` - Lets you handle the error
+- `throw{}` - Lets you create custom errors
+- `finally{}` - Lets you execute code after `try{}` and `catch{}` regardless of the result
+
+### util module
+
+- `const util = require("util")`
