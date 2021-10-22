@@ -204,3 +204,23 @@ stream.on("error", err => console.log(err))
 - Writeable
 - Duplex
 - Transform
+
+## HTTP Messages
+
+- Both Have:
+  - Optional **Headers** that have all the meta info. Dislayed in key-value pairs
+  - Optional **Body** is any data you want to provide or receive. Also call the **Payload**
+  - **URL**
+  - **Status Code**
+- Request Messages: what the user is sending
+- Response - What we give the user
+  - Content-Type is an important key value pair.
+    - `content-type: text/html` is used to send html
+    - `content-type: applicatoin/json` is used to send data
+
+## HTTP Methods
+
+- **Post** - **C**reate Data
+- **Get** - **R**ead data
+- **Put** - **U**pdate Data
+- **Delete** - **D**elete Data
