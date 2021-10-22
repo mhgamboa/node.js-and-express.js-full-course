@@ -55,7 +55,7 @@
 
 #### asynchronously (Non-Blocking)
 
-- `fs.readFile("./path/first.txt", (err,"encoding", result)=>{})` - Lets you read files asynchronously. EXAMPLE:
+- `fs.readFile("./path/first.txt", (err,"<encoding>", result)=>{})` - Lets you read files asynchronously. EXAMPLE:
 
 ```
 readFile("./file/path.txt", "utf8", (err, result) => {
@@ -144,6 +144,9 @@ writeFile("./file/path.txt", "what to write", (err, result) => {
 
 - Promise:
   - `new Promise (resolve, reject)=>{ reject(foo) resolve(bar)}`
+  - `foo` is the error object if an error has occurred
+  - `bar` is the value if the function runs properly
+  - Promises need to have ` ` and `.then` to handle errors and successes respectively
 - async/await:
 
 ```
@@ -164,3 +167,40 @@ const function = async () => {
 ### util module
 
 - `const util = require("util")`
+- `util.promisify(function)`
+  - From what I'm gathering it lets you convert functions into promises. Not sure why you want to do this
+
+## Events Emitter
+
+- `const EventEmitter = require("events");`
+- `const customEmitter = new EventEmitter()`
+- `customEmitter.on("nameOfEvent", (param1, param2)=>{})` Listens for events. Needs `customEmitter.emit()` to run the function
+  - You can use multiple `customEmitter.on()` with the same `nameOfEvent`
+- `customEmitter.emit("nameOfEvent", param1, param2)` Emits events
+  - this must come after the ``customEmitter.on()` method. **Order matters!**
+- **Many module functions are descendants of the events module. That is why you can use the `.on()` method so much outside of the events module** (Which lets them listen for events)
+
+## Streams
+
+- **Streams are generally used with big data**
+- Readable
+  - Options:
+    - `{highWaterMark: 90000}` changes the size fo the readstream (It's 64kb by default)
+    - `{encoding: "utf8"}` - You'll need this to make the stream human readable
+    - `{}`
+  - EXAMPLE:
+
+```
+const { createReadStream } = require("fs");
+const stream = createReadStream(./path/to/large/data.txt, {<Options>});
+stream.on("data", (chunk) => {
+  console.log(chunk);
+  fileStream.pipe(res) // Sends data in chunks, not one massive file
+});
+
+stream.on("error", err => console.log(err))
+```
+
+- Writeable
+- Duplex
+- Transform
