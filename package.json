@@ -20,5 +20,8 @@
   "homepage": "https://github.com/mhgamboa/node.js-and-express.js-full-course#readme",
   "devDependencies": {
     "nodemon": "^2.0.14"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
   }
 }
