@@ -99,3 +99,83 @@ const getAllProducts = async (req, res) => {
 ```
 
 - This is a long complicated code that essentially creates an object for the correct comparison queries the postman submits
+
+## 05-JWT-Basics
+
+- json web tokens (JWT) insure that only the right people can edit the right data. If a valid token is present during a request, the user can access specific info (But not all the info!).
+
+- JWT looks like a string. **The format is header.payload.signature**. Everything is encoded with base64Url encoding
+  - The payload is where the information that was requested is sent. JWT Format:
+
+Encoded format:
+
+```
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+```
+
+Decoded format:
+
+```
+HEADER
+{
+  "alg": "HS256",
+  "typ": "JWT"
+}
+
+PAYLOAD (data)
+{
+  "sub": "1234567890",
+  "name": "John Doe",
+  "iat": 1516239022
+}
+
+DATA - VERIFY SIGNATURE
+HMACSHA256(
+  base64UrlEncode(header) + "." +
+  base64UrlEncode(payload),
+
+your-256-bit-secret
+
+)
+```
+
+- **The package to sign and decode** tokens (in this course - There are actually many different packages) is jsonwebtoken
+
+### jsonwebtoken package
+
+Implement as following in controller/main.js:
+
+```
+const jwt = require("jsonwebtoken");
+
+const login = async (req, res) => {
+  const { username, password } = req.body;
+  console.log(username, password);
+
+  if (!username || !password) {
+    throw new CustomAPIError(`Please provide email and password`, 400);
+  }
+
+  const token = jwt.sign(payload, jwtSecretString, options); // signs token
+
+  res.status(200).json({ msg: "user created", token }); // sends token to front end
+};
+```
+
+- **payload** can be any data that you want to send.
+  - **Never send the password as part of the payload!**
+  - Keep the payload small for a better user experience (Smilga uses `{id, username}`)
+- **jwtSecretString** must be a long random string that is unguessable
+  - Save this in the .env file as JWT_SECRET
+
+Example Token:
+
+```
+const token = jwt.sign(
+  { id, username }, //payload
+  process.env.JWT_SECRET, //jwtSecretString
+  {expiresIn: "30d"} // options
+);
+```
+
+- This course doesn't explain how jwt are stored on the front end :(
