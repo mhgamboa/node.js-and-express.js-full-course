@@ -178,4 +178,24 @@ const token = jwt.sign(
 );
 ```
 
-- This course doesn't explain how jwt are stored on the front end :(
+- This course doesn't explain how jwt are stored on the front end :( But he does explain it briefly:
+
+```
+const { data } = await axios.post('/api/v1/login', { username, password })
+localStorage.setItem('token', data.token)
+```
+
+```
+const token = localStorage.getItem('token')
+try {
+  const { data } = await axios.get('/api/v1/dashboard', {
+    headers: {
+      Authorization: `Bearer ${token}`, // Set the Authorizaiton within the Header!!!
+    },
+  })
+  data.secret
+} catch (error) {
+  localStorage.removeItem('token')
+  resultDOM.innerHTML = `<p>${error.response.data.msg}</p>`
+}
+```

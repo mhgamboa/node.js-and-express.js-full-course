@@ -20,18 +20,12 @@ const login = async (req, res) => {
 };
 
 const dashboard = async (req, res) => {
-  const authHeader = req.headers.authorization;
+  console.log(req.user);
 
-  if (!authHeader || !authHeader.startsWith("Bearer ")) {
-    throw new CustomAPIError(`Not token provided`, 400);
-  }
+  const luckyNumber = Math.floor(Math.random() * 100);
 
-  const token = authHeader.split(" ")[1];
-  console.log(token);
-
-  const luckyNumber = Math.random() * 100;
   res.status(200).json({
-    msg: `Hello John Doe`,
+    msg: `Hello ${req.user.username}`,
     secret: `Here is your authorized data, your lucky number is ${luckyNumber}`,
   });
 };
