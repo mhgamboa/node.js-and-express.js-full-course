@@ -199,3 +199,30 @@ try {
   resultDOM.innerHTML = `<p>${error.response.data.msg}</p>`
 }
 ```
+
+### Error Handling
+
+- In `root/errors/` create different files to handle different errors. Then import them all into `root/errors/index.js`
+- You can use the package **http-status-codes** To help rename your errors in a readable way. **For example take a look at this:**
+
+```
+class BadRequest extends CustomAPIError {
+  constructor(message) {
+    super(message);
+    this.statusCode = 400;
+  }
+}
+```
+
+**Versus This:**
+
+```
+const { statusCodes } = require("http-status-codes");
+
+class BadRequest extends CustomAPIError {
+  constructor(message) {
+    super(message);
+    this.statusCode = statusCodes.BAD_REQUEST;
+  }
+}
+```

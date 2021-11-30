@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const CustomAPIError = require("../errors/custom-error");
+const { BadRequestError } = require("../errors/bad-request");
 require("dotenv").config();
 
 const login = async (req, res) => {
@@ -7,7 +7,7 @@ const login = async (req, res) => {
   console.log(username, password);
 
   if (!username || !password) {
-    throw new CustomAPIError(`Please provide email and password`, 400);
+    throw new BadRequestError(`Please provide email and password`);
   }
 
   const id = new Date().getDate(); //MongoDB provides the id, this is just ficticious dummy data
