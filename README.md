@@ -226,3 +226,42 @@ class BadRequest extends CustomAPIError {
   }
 }
 ```
+
+## Password Hashing
+
+- **NEVER EVER SAVE USER PASSWORDS AS STRINGS IN MONGODB**. You want to hash them instead
+- Run `npm i bcryptjs`
+- Here's how you implement **bcryptjs**:
+
+```
+const User = require("../models/User");
+const bcrypt = require("bcryptjs");
+
+const register = async (req, res) => {
+  const { name, email, password } = req.body;
+
+  const salt = await bcrypt.genSalt(10); // Generates salt (random bytes). See below.
+  const hashedPassword = await bcrypt.hash(password, salt); // generates the hashed password
+
+  const tempUser = { name, email, password: hashedPassword };
+
+  const user = await User.create({ ...tempUser });
+  res.status(StatusCodes.CREATED).json(user);
+};
+```
+
+- `bcrypt.genSalt(10)`: The number determines how many random bytes you'll get. A bigger number makes the password more secure, but requires more processing power. 10 is default.
+
+- You can simplify the code above using schema.pre() which is middleware that executes before something is performed. Example:
+
+```
+UserSchema.pre("save", async function () {
+  const salt = await bcrypt.genSalt(10);
+  this.password = bcrypt.hash(this.password); //Don't use arrow function so that `this` refers globally
+  next();
+});
+```
+
+## Random Learnings
+
+- `const { BadRequestError } = require("../errors");` will automatically point to index.js with the errors folder.
