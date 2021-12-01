@@ -167,6 +167,7 @@ const login = async (req, res) => {
   - Keep the payload small for a better user experience (Smilga uses `{id, username}`)
 - **jwtSecretString** must be a long random string that is unguessable
   - Save this in the .env file as JWT_SECRET
+  - Smilga recommends [allkeysgenerator.com](https://allkeysgenerator.com) Encryption key > 256-bit
 
 Example Token:
 
@@ -174,7 +175,8 @@ Example Token:
 const token = jwt.sign(
   { id, username }, //payload
   process.env.JWT_SECRET, //jwtSecretString
-  {expiresIn: "30d"} // options
+  {expiresIn: process.env.JWT_LIFETIME} // options. In .env set JWT_LIFETIME=30d
+
 );
 ```
 
@@ -186,7 +188,7 @@ UserSchema.methods.createJWT = function () {
   return jwt.sign(
     { userID: this._id, name: this.name },
     process.env.JWT_SECRET,
-    { expiresIn: "30d" }
+    { expiresIn: process.env.JWT_SECRET } // In .env set JWT_LIFETIME=30d
   );
 };
 ```
