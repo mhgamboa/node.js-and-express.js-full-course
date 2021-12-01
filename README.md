@@ -178,6 +178,19 @@ const token = jwt.sign(
 );
 ```
 
+**You should sign tokens by using schema methods.** Example:
+
+```
+// In models folder user.js
+UserSchema.methods.createJWT = function () {
+  return jwt.sign(
+    { userID: this._id, name: this.name },
+    process.env.JWT_SECRET,
+    { expiresIn: "30d" }
+  );
+};
+```
+
 - This course doesn't explain how jwt are stored on the front end :( But he does explain it briefly:
 
 ```
@@ -255,11 +268,19 @@ const register = async (req, res) => {
 - You can simplify the code above using schema.pre() which is middleware that executes before something is performed. Example:
 
 ```
-UserSchema.pre("save", async function () {
+// In the model
+UserSchema.pre("save", async function (next) {
   const salt = await bcrypt.genSalt(10);
-  this.password = bcrypt.hash(this.password); //Don't use arrow function so that `this` refers globally
+  this.password = await bcrypt.hash(this.password, salt); //Don't use arrow function so that `this` refers globally
   next();
 });
+
+// In the controller
+const register = async (req, res) => {
+  const user = await User.create({ ...req.body });
+  res.status(StatusCodes.CREATED).json(user);
+};
+
 ```
 
 ## Random Learnings
