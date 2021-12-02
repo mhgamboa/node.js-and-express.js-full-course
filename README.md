@@ -288,3 +288,18 @@ const register = async (req, res) => {
 ## Random Learnings
 
 - `const { BadRequestError } = require("../errors");` will automatically point to index.js with the errors folder.
+- Reference other documents by using `type: mongoose.Types.ObjectId`. Example:
+
+```
+const JobSchema = new mongoose.Schema({
+  company: {
+    type: String,
+    required: [true, "Please provide company name"],
+    maxlength: 50,
+  },
+  createdBy: {
+    type: mongoose.Types.ObjectId,
+    ref: 'User', // Model name you are referencing
+  },
+});
+```
