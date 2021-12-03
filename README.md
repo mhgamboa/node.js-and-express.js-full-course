@@ -285,6 +285,35 @@ const register = async (req, res) => {
 
 ```
 
+## Security
+
+- **helmet** - Sets various https headers to prevent numerous posssible attacks
+- **cors** - Ensures that our api is accessible from a different domain (corss origin resource sharing)
+- **xss-clean** - Sanitizes user input (req.body, req.query, req.param). Protects us from X-site scripting attacks
+- **express-rate-limit** - limits the amount of requests the user can make
+
+Example:
+
+```
+const helmet = require("helmet");
+const cors = require("cors");
+const xss = require("xxs-clean");
+const rateLimiter = require("express-rate-limit");
+
+// ratLimiter stuff goes first. Even before app.use(express.json())
+app.set("trust proxy", 1); Part of rateLimiter. See npmjs docs under "usage" for details
+app.use(
+  rateLimiter({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 100, // limit each IP to 100 requests per windowMs
+  })
+);
+app.use(express.json());
+app.use(helmet());
+app.use(cors());
+app.use(xss());
+```
+
 ## Random Learnings
 
 - `const { BadRequestError } = require("../errors");` will automatically point to index.js with the errors folder.
