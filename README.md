@@ -314,6 +314,51 @@ app.use(cors());
 app.use(xss());
 ```
 
+## Deploying
+
+Pretty much just follow the documentation [here](https://devcenter.heroku.com/articles/deploying-nodejs).
+
+1. package.json should have:
+
+```
+...
+"scripts": {
+    "start": "node app.js"
+  },
+  ...
+  "engines": {"node": "16.x"} // Use your current node version
+```
+
+2. In the root folder create a file called `Procfile` (no extension), and put `web: node app.js` in the file (The same as it's written in package.json)
+
+3. `git init` `git add .` `git commit -m "Initial commit"`
+4. `heroku login` and login
+5. `heroku create app-name` to create a new heroku application
+6. `git remote -v` check whether git remote points to the actual repo. (Should all say https://git.geroku.com/app-name)
+7. Two methods to handle ignored .env file items:
+8. Method one - Command Line: `heroku config:set ENV_VARIABLE=VALUE`
+9. `git push heroku main` or `git push heroku master` if `main` doesn't work
+10. Method two - Heroku GUI: Login to Heroku and in your app click on settings and click on "Reveal Config Vars". Add your ENV files
+11. Click more (top right) - Restart all Dynos
+
+## Creating Documentation in Swagger Ui
+
+1. `heroku git:clone -a app-name` to clone the repository that points to heroku
+2. In postman change the `{{URL}}` TO `{{PROD_URL}}` pointing to the link Heroku created for your project for all requests
+3. In your collection click export to create a json file
+4. Sign up for an account at [apimatic](https://www.apimatic.io/).
+5. Import your new json file
+6. Edit API > server configuration > Change URL to correct url/api/v1. Save settings
+7. Authentication tab on far left. Make sure type is Bearer Token
+8. Endpoints on far left > Change "skip authentication" to only the requests that require authentication (Loging in and registering do not for example). You can add them to different folders/groups to better organize. Smiilga uses "Auth" for login and register, and "jobs" for the rest
+9. Go back to your dashboard > 3 dots > Export api > OpenAPI v3.0 (YAML). You get a json page.
+10. Go to the [Swagger Editor](https://www.editor.swagger.io). Copy and paste the json page you just saw
+11. Google "Swagger ui parameters" to specify different routes (like :id)
+12. In package.json add `yamljs`and `swagger-ui-express` to package.json
+13. in app.js `const swaggerUI = require("swagger-ui-express")`, `const YAML = require("yamljs")` AND `CONST swaggerDocument = YAML.load('./sagger.yaml)`
+14. `app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument))`
+15. `git add .`, `git commit -m ""`, `git push heroku master`
+
 ## Random Learnings
 
 - `const { BadRequestError } = require("../errors");` will automatically point to index.js with the errors folder.
