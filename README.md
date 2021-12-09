@@ -129,7 +129,10 @@ const getAllProducts = async (req, res) => {
 - json web tokens (JWT) insure that only the right people can edit the right data. If a valid token is present during a request, the user can access specific info (But not all the info!).
 
 - JWT looks like a string. **The format is header.payload.signature**. Everything is encoded with base64Url encoding
-  - The payload is where the information that was requested is sent. JWT Format:
+  - The **header typically consists of two parts**: the tokentype (which is JWT) and the signing algorithm being used (such as HMAC SHA256 or RSA).
+  - The **payload** is where the information that was requested is sent(issuedat/expiredat/name/userId/etc.).
+  - The **signature** can verify the message wasn't changed along the way, and can verify that the sender of the JWT is who they claim to be.
+  - JWT Format:
 
 Encoded format:
 
